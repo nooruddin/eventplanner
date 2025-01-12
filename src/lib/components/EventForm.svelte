@@ -37,7 +37,7 @@
       return;
     }
 
-    return async ({ update }) => {
+    return async ({ update }: { update: () => Promise<void> }) => {
       await update();
       isSubmitting = false;
     };

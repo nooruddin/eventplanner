@@ -1,32 +1,8 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-  import formatDate from "$lib/utils/date";
+  import { getEventEmoji } from "$lib/utils/eventIcons";
+  import formatDate from "../../lib/utils/date";
   export let data: PageData;
-
-  function getEmoji(title: string): string {
-    const keywords = {
-      meeting: "👥",
-      party: "🎉",
-      birthday: "🎂",
-      lunch: "🍽️",
-      dinner: "🍴",
-      coffee: "☕",
-      workout: "💪",
-      study: "📚",
-      travel: "✈️",
-      game: "🎮",
-      movie: "🎬",
-      music: "🎵",
-      default: "📅",
-    };
-    const lowercaseTitle = title.toLowerCase();
-    for (const [keyword, emoji] of Object.entries(keywords)) {
-      if (lowercaseTitle.includes(keyword)) {
-        return emoji;
-      }
-    }
-    return keywords.default;
-  }
 </script>
 
 <div class="max-w-2xl mx-auto animate-fade-in">
@@ -35,7 +11,7 @@
       <div class="card-body">
         <div class="flex items-center gap-4 mb-6">
           <div class="text-6xl animate-bounce-in">
-            {getEmoji(data.event.title)}
+            {getEventEmoji(data.event.title)}
           </div>
           <div>
             <h1 class="text-3xl font-bold">{data.event.title}</h1>
