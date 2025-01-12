@@ -4,7 +4,7 @@
     export let value: string = '';
     export let required = false;
     export let disabled = false;
-    export let type: 'text' | 'datetime-local' = 'text';
+    export let type: 'text' | 'date' = 'text';
     export let placeholder = '';
 </script>
 <div>

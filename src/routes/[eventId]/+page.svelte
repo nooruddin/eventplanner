@@ -2,6 +2,11 @@
 	import type { PageData } from "./$types";
 
     export let data: PageData;
+
+    function formatDate(dateString: string): string {
+        const date = new Date(dateString);
+        return date.toLocaleDateString();
+    }
 </script>
 
 <div class="max-w-2xl mx-auto py-8">
@@ -18,8 +23,8 @@
                 </div>
             {/if}
             <div>
-                <h3 class="text-sm font-medium text-gray-700 mb-2">Date and Time</h3>
-                <p class="text-gray-600">{new Date(data.event.date).toLocaleString()}</p>
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Date</h3>
+                <p class="text-gray-600">{formatDate(data.event.date)}</p>
             </div>
             <div class="mt-6 flex space-x-3">
                 <a href="/edit/{data.event.id}" 
