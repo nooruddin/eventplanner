@@ -1,49 +1,92 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
+  import type { PageData } from "./$types";
+  import formatDate from "$lib/utils/date";
+  export let data: PageData;
 
-    export let data: PageData;
-
-    function formatDate(dateString: string): string {
-        const date = new Date(dateString);
-        return date.toLocaleDateString();
+  function getEmoji(title: string): string {
+    const keywords = {
+      meeting: "👥",
+      party: "🎉",
+      birthday: "🎂",
+      lunch: "🍽️",
+      dinner: "🍴",
+      coffee: "☕",
+      workout: "💪",
+      study: "📚",
+      travel: "✈️",
+      game: "🎮",
+      movie: "🎬",
+      music: "🎵",
+      default: "📅",
+    };
+    const lowercaseTitle = title.toLowerCase();
+    for (const [keyword, emoji] of Object.entries(keywords)) {
+      if (lowercaseTitle.includes(keyword)) {
+        return emoji;
+      }
     }
+    return keywords.default;
+  }
 </script>
 
-<div class="max-w-2xl mx-auto py-8">
-    {#if data.event}
-        <div class="bg-white shadow rounded-lg p-6">
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold text-gray-900">{data.event.title}</h2>
-                <p class="text-sm text-gray-500 mt-1">Event ID: {data.event.id}</p>
-            </div>
-            {#if data.event.description}
-                <div class="mb-4">
-                    <h3 class="text-sm font-medium text-gray-700 mb-2">Description</h3>
-                    <p class="text-gray-600">{data.event.description}</p>
-                </div>
-            {/if}
-            <div>
-                <h3 class="text-sm font-medium text-gray-700 mb-2">Date</h3>
-                <p class="text-gray-600">{formatDate(data.event.date)}</p>
-            </div>
-            <div class="mt-6 flex space-x-3">
-                <a href="/edit/{data.event.id}" 
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Edit Event
-                </a>
-                <a href="/" 
-                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Back to Events
-                </a>
-            </div>
+<div class="max-w-2xl mx-auto animate-fade-in">
+  {#if data.event}
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="text-6xl animate-bounce-in">
+            {getEmoji(data.event.title)}
+          </div>
+          <div>
+            <h1 class="text-3xl font-bold">{data.event.title}</h1>
+            <p class="text-base-content/60 text-sm">
+              Event ID: {data.event.id}
+            </p>
+          </div>
         </div>
-    {:else}
-        <div class="text-center">
-            <h2 class="text-xl font-semibold text-gray-900">Event not found</h2>
-            <p class="mt-2 text-gray-600">The event you're looking for doesn't exist or has been removed.</p>
-            <a href="/" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Back to Events
-            </a>
+
+        <div class="divider"></div>
+
+        <div class="space-y-6">
+          {#if data.event.description}
+            <div class="prose prose-sm max-w-none">
+              <h2 class="text-lg font-semibold flex items-center gap-2">
+                📝 Description
+              </h2>
+              <p class="text-base-content/80">{data.event.description}</p>
+            </div>
+          {/if}
+          <div class="prose prose-sm max-w-none">
+            <h2 class="text-lg font-semibold flex items-center gap-2">
+              📅 Date
+            </h2>
+            <p class="text-base-content/80">
+              <time datetime={data.event.date}
+                >{formatDate(data.event.date)}</time
+              >
+            </p>
+          </div>
         </div>
-    {/if}
+        <div class="card-actions justify-end mt-8">
+          <a href="/" class="btn btn-ghost"> 👈 Back to Events </a>
+          <a href="/edit/{data.event.id}" class="btn btn-primary">
+            ✏️ Edit Event
+          </a>
+        </div>
+      </div>
+    </div>
+  {:else}
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body text-center">
+        <div class="text-6xl mb-4 animate-bounce-in">😢</div>
+        <h2 class="text-2xl font-semibold mb-2">Event Not Found</h2>
+        <p class="text-base-content/70 mb-6">
+          The event you're looking for doesn't exist or has been removed.
+        </p>
+        <div class="card-actions justify-center">
+          <a href="/" class="btn btn-primary"> 👈 Back to Events </a>
+        </div>
+      </div>
+    </div>
+  {/if}
 </div>
