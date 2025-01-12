@@ -1,14 +1,29 @@
 <script lang="ts">
-    export let label: string;
-    export let name: string;
-    export let value: string = '';
-    export let rows = 4;
-    export let disabled = false;
-    export let placeholder = '';
+  export let label: string;
+  export let name: string;
+  export let value: string = "";
+  export let required = false;
+  export let disabled = false;
+  export let placeholder = "";
+  export let rows = 4;
 </script>
-<div>
-    <label for={name} class="block text-sm font-medium text-gray-700">{label}</label>
-    <textarea id={name} {name} {rows} {placeholder}
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        {disabled}>{value}</textarea>
-</div> 
+
+<div class="form-control w-full">
+  <label for={name} class="label">
+    <span class="label-text font-medium">{label}</span>
+    {#if required}
+      <span class="label-text-alt text-error">*Required</span>
+    {/if}
+  </label>
+
+  <textarea
+    id={name}
+    {name}
+    {rows}
+    {required}
+    {disabled}
+    {placeholder}
+    class="textarea textarea-bordered bg-base-100 focus:textarea-primary transition-colors duration-200 min-h-[8rem]"
+    >{value}</textarea
+  >
+</div>
