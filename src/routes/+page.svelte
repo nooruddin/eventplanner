@@ -2,6 +2,11 @@
 	import type { PageData } from "./$types";
     import type { Event } from "$lib/server/remote-events";
     export let data: PageData;
+
+    function formatDate(dateString: string): string {
+        const date = new Date(dateString);
+        return date.toLocaleDateString();
+    }
 </script>
 
 <h1>Welcome to SvelteKit</h1>
@@ -14,7 +19,7 @@
             <div>
                 <h2 class="text-lg font-bold">{event.title}</h2>
                 <p class="text-gray-600">{event.description}</p>
-                <p class="text-sm text-gray-500">{new Date(event.date).toLocaleString()}</p>
+                <p class="text-sm text-gray-500">{formatDate(event.date)}</p>
             </div>
             <div class="space-x-2">
                 <a href="/edit/{event.id}" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
