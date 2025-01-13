@@ -20,10 +20,15 @@
     </p>
   </header>
 
+  {#await data.streamed.events}
+  <div class="flex justify-center items-center py-12">
+    <div class="loading loading-spinner loading-lg text-primary"></div>
+  </div>
+  {:then events}
   <div
     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6"
   >
-    {#each data.events as event}
+    {#each events as event}
       <div
         class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 animate-slide-in hover:scale-105"
       >
@@ -125,4 +130,9 @@
       </div>
     {/each}
   </div>
+  {:catch error}
+  <div class="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+    {error.message}
+  </div>
+  {/await}
 </div>
