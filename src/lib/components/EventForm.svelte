@@ -78,7 +78,7 @@
               .slice(0, 16)}
         required
         disabled={isSubmitting}
-        on:input={(e: InputEvent) =>
+        on:input={(e: CustomEvent<InputEvent>) =>
           validateDate((e.target as HTMLInputElement).value)}
       />
     </div>

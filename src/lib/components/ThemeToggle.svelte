@@ -1,19 +1,16 @@
 <script lang="ts">
-  import { beforeUpdate } from "svelte";
+  import { onMount } from "svelte";
   let theme: "light" | "dark";
-  let mounted = false;
 
-  beforeUpdate(() => {
-    if (!mounted) {
-      theme =
-        (localStorage.getItem("theme") as "light" | "dark") ||
-        (window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light");
-      document.documentElement.setAttribute("data-theme", theme);
-      mounted = true;
-    }
+  onMount(() => {
+    theme =
+      (localStorage.getItem("theme") as "light" | "dark") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light");
+    document.documentElement.setAttribute("data-theme", theme);
   });
+
   function toggleTheme() {
     theme = theme === "light" ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
