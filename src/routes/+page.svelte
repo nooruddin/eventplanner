@@ -3,18 +3,9 @@
   import type { Event } from "$lib/server/remote-events";
   import { getEventEmoji } from "$lib/utils/eventIcons";
   import { enhance } from "$app/forms";
+  import formatDate from "$lib/utils/date";
 
   export let data: PageData;
-
-  function formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toLocaleDateString(undefined, {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  }
 </script>
 
 <div class="space-y-8">

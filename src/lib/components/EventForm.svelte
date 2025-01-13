@@ -11,6 +11,27 @@
   export let processingLabel = "Saving Event...";
 
   const today = new Date().toISOString();
+  let formattedDate: string;
+
+  // Function to format the date
+  function formatEventDate(date: string | undefined): string {
+    if (!date) {
+      return new Date()
+        .toLocaleString("sv-SE", {
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        })
+        .slice(0, 16);
+    }
+    return new Date(date)
+      .toLocaleString("sv-SE", {
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      })
+      .slice(0, 16);
+  }
+
+  // Reactive statement to update formattedDate when event.date changes
+  $: formattedDate = formatEventDate(event.date);
+
   function validateDate(date: string): boolean {
     const selectedDate = new Date(date);
     const now = new Date();
@@ -49,14 +70,14 @@
     <InputField
       label="Title"
       name="title"
-      value={event.title || ""}
+      bind:value={event.title}
       required
       disabled={isSubmitting}
     />
     <TextArea
       label="Description"
       name="description"
-      value={event.description || ""}
+      bind:value={event.description}
       placeholder="Description"
       disabled={isSubmitting}
     />
@@ -65,17 +86,7 @@
         label="Date"
         name="date"
         type="datetime-local"
-        value={event.date
-          ? new Date(event.date)
-              .toLocaleString("sv-SE", {
-                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-              })
-              .slice(0, 16)
-          : new Date()
-              .toLocaleString("sv-SE", {
-                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-              })
-              .slice(0, 16)}
+        bind:value={formattedDate}
         required
         disabled={isSubmitting}
         on:input={(e: CustomEvent<InputEvent>) =>

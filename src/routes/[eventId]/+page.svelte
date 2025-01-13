@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import { getEventEmoji } from "$lib/utils/eventIcons";
-  import formatDate from "../../lib/utils/date";
+  import formatDate from "$lib/utils/date";
   export let data: PageData;
 </script>
 
